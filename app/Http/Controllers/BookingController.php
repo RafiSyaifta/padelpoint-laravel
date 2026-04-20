@@ -26,53 +26,49 @@ class BookingController extends Controller
         return view('booking.index', compact('bookings'));
     }
 
-    // Di dalam method store(Request $request)
-    public function store(Request $request)
+    public function store(Request $request, $court_id) // Pastikan $court_id ada di sini
     {
-        // 1. Validasi input dasar
-        $request->validate([
-            'court_id' => 'required',
-            'booking_date' => 'required|date|after_or_equal:today',
-            'start_time' => 'required',
-            'end_time' => 'required|after:start_time',
-        ]);
+        // Cek input dulu
+        // dd($request->all(), $court_id);
 
-        // 2. CEK JADWAL BENTROK
-        $isBentrok = Booking::where('court_id', $request->court_id)
+        // Query cek bentrok
+        $check = Booking::where('court_id', $court_id)
             ->where('booking_date', $request->booking_date)
             ->where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
-                    // Skenario 1: Jam mulai baru ada di antara jam booking orang lain
                     $q->where('start_time', '<=', $request->start_time)
                     ->where('end_time', '>', $request->start_time);
                 })->orWhere(function ($q) use ($request) {
-                    // Skenario 2: Jam selesai baru ada di antara jam booking orang lain
                     $q->where('start_time', '<', $request->end_time)
                     ->where('end_time', '>=', $request->end_time);
-                })->orWhere(function ($q) use ($request) {
-                    // Skenario 3: Jam baru justru membungkus jam booking orang lain
-                    $q->where('start_time', '>=', $request->start_time)
-                    ->where('end_time', '<=', $request->end_time);
                 });
-            })
-            ->exists();
+            });
 
-        if ($isBentrok) {
-            return back()->withErrors(['error' => 'Maaf, lapangan sudah dipesan di jam tersebut!'])->withInput();
+        // LIHAT HASILNYA: Kalau muncul "true", berarti logika bentrok lu bener tapi datanya emang tabrakan
+        // dd($check->exists());
+
+        if ($check->exists()) {
+            return back()->with('error', 'Jadwal sudah terisi bro!')->withInput();
         }
 
-    // 3. Jika aman, simpan ke database
-    Booking::create([
-        'user_id' => auth()->id(),
-        'court_id' => $request->court_id,
-        'booking_date' => $request->booking_date,
-        'start_time' => $request->start_time,
-        'end_time' => $request->end_time,
-        'status' => 'pending',
-    ]);
+        // Kalau lolos, coba simpan
+        Booking::create([
+            'user_id' => auth()->id(),
+            'court_id' => $court_id,
+            'booking_date' => $request->booking_date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'total_price' => $request->total_price,
+        ]);
 
-    return redirect()->route('booking.index')->with('success', 'Booking berhasil dibuat!');
-}
+        // Logika Redirect Pintar
+        if (auth()->user()->role === 'admin') {
+            // Kalau yang booking Admin, balik ke Panel Admin
+            return redirect()->route('admin.dashboard')->with('success', 'Booking berhasil dicatat ke sistem!');
+        }
+
+        return redirect()->route('booking.index')->with('success', 'Booking Aman!');
+    }
 
     // Fungsi buat ngebatalin/ngehapus booking
     public function destroy($id)
