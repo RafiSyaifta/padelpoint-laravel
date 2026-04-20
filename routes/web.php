@@ -41,6 +41,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::put('/courts/{id}', [AdminDashboardController::class, 'updateCourt'])->name('admin.courts.update');
     Route::delete('/courts/{id}', [AdminDashboardController::class, 'destroyCourt'])->name('admin.courts.destroy');
     Route::delete('/admin/bookings/{id}', [AdminDashboardController::class, 'destroyBooking'])->name('admin.bookings.destroy');
+    Route::patch('/admin/bookings/{id}/confirm', [AdminDashboardController::class, 'confirmPayment'])->name('admin.bookings.confirm');
 });
 
 require __DIR__.'/auth.php';
