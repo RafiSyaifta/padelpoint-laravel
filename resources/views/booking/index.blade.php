@@ -30,52 +30,83 @@
                         <p class="text-gray-500 font-medium text-lg">Kamu belum memesan lapangan apapun. Yuk booking sekarang!</p>
                     </div>
                 @else
-                    @foreach($bookings as $booking)
-                    <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-indigo-100 hover:-translate-y-1 transition-all duration-300 flex flex-col md:flex-row group">
 
-                        <div class="md:w-2/3 p-8 flex items-start gap-6">
-                            <div class="h-16 w-16 bg-indigo-50/70 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-indigo-100 transition-colors duration-300">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A4 4 0 002 9.87v4.263a4 4 0 005.555 3.334l1.125-.75m4.268-3.08l4.416 2.944a1 1 0 001.543-.805V8.212a1 1 0 00-1.543-.804l-4.416 2.944zM15 12h.01"></path></svg>
-                            </div>
-                            <div>
-                                <span class="inline-block py-1 px-3 rounded-full bg-green-50 border border-green-100 text-xs font-bold tracking-wider uppercase mb-2 text-green-600">
+                @foreach($bookings as $booking)
+                <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-indigo-100 hover:-translate-y-1 transition-all duration-300 flex flex-col md:flex-row group">
+
+                    <div class="md:w-2/3 p-8 flex items-start gap-6">
+                        <div class="h-16 w-16 bg-indigo-50/70 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-indigo-100 transition-colors duration-300">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A4 4 0 002 9.87v4.263a4 4 0 005.555 3.334l1.125-.75m4.268-3.08l4.416 2.944a1 1 0 001.543-.805V8.212a1 1 0 00-1.543-.804l-4.416 2.944zM15 12h.01"></path></svg>
+                        </div>
+                        <div>
+                            @if($booking->status == 'success')
+                                <span class="inline-block py-1 px-3 rounded-full bg-green-50 border border-green-100 text-[10px] font-black tracking-wider uppercase mb-2 text-green-600">
                                     Sukses
                                 </span>
-                                <h4 class="text-2xl font-black text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors duration-300">{{ $booking->court->name }}</h4>
-                                <div class="flex flex-wrap items-center gap-4 text-gray-500 font-medium text-sm">
-                                    <div class="flex items-center gap-1.5">
-                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                        {{ \Carbon\Carbon::parse($booking->booking_date)->translatedFormat('l, d F Y') }}
-                                    </div>
-                                    <div class="flex items-center gap-1.5 px-3 py-1 bg-gray-50 rounded-lg text-gray-700">
-                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        {{ \Carbon\Carbon::parse($booking->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($booking->end_time)->format('H:i') }} WIB
-                                    </div>
+                            @elseif($booking->status == 'pending')
+                                <span class="inline-block py-1 px-3 rounded-full bg-orange-50 border border-orange-100 text-[10px] font-black tracking-wider uppercase mb-2 text-orange-600">
+                                    Menunggu Pembayaran
+                                </span>
+                            @else
+                                <span class="inline-block py-1 px-3 rounded-full bg-red-50 border border-red-100 text-[10px] font-black tracking-wider uppercase mb-2 text-red-600">
+                                    Dibatalkan
+                                </span>
+                            @endif
+
+                            <h4 class="text-2xl font-black text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors duration-300">{{ $booking->court->name }}</h4>
+                            <div class="flex flex-wrap items-center gap-4 text-gray-500 font-medium text-sm">
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    {{ \Carbon\Carbon::parse($booking->booking_date)->translatedFormat('l, d F Y') }}
+                                </div>
+                                <div class="flex items-center gap-1.5 px-3 py-1 bg-gray-50 rounded-lg text-gray-700">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    {{ \Carbon\Carbon::parse($booking->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($booking->end_time)->format('H:i') }} WIB
                                 </div>
                             </div>
+
+                            @if($booking->status == 'pending')
+                                <div class="mt-6 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                                    @if(!$booking->payment_proof)
+                                        <form action="{{ route('booking.upload', $booking->id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">Upload Bukti Transfer</label>
+                                            <div class="flex items-center gap-3">
+                                                <input type="file" name="payment_proof" class="text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700" required>
+                                                <button type="submit" class="text-xs font-bold text-indigo-600 hover:underline">Kirim Sekarang</button>
+                                            </div>
+                                        </form>
+                                    @else
+                                        <div class="flex items-center text-indigo-600 gap-2">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            <span class="text-xs font-bold uppercase tracking-tight">Bukti sudah dikirim. Menunggu verifikasi admin.</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
-
-                        <div class="md:w-1/3 bg-gray-50/50 group-hover:bg-gray-50 p-8 border-t md:border-t-0 md:border-l border-dashed border-gray-200 transition-colors duration-300 flex flex-col justify-between items-start md:items-end text-left md:text-right relative">
-                            <div class="hidden md:block absolute -left-3 top-1/2 -mt-3 w-6 h-6 bg-[#F8FAFC] rounded-full border-r border-gray-200 group-hover:border-indigo-100 transition-colors duration-300"></div>
-
-                            <div class="w-full">
-                                <p class="text-sm font-extrabold text-gray-400 uppercase tracking-widest mb-1">Total Pembayaran</p>
-                                <p class="text-3xl font-black text-indigo-600 mb-6">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</p>
-                            </div>
-
-                            <form action="{{ route('booking.destroy', $booking->id) }}" method="POST" class="w-full mt-auto" onsubmit="return confirm('Yakin ingin membatalkan pesanan ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="w-full flex items-center justify-center py-2.5 px-4 bg-white border border-red-200 text-red-500 font-bold rounded-xl hover:bg-red-50 hover:border-red-300 transition-all duration-300 group/btn">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    Batalkan Pesanan
-                                </button>
-                            </form>
-
-                        </div>
-
                     </div>
-                    @endforeach
+
+                    <div class="md:w-1/3 bg-gray-50/50 group-hover:bg-gray-50 p-8 border-t md:border-t-0 md:border-l border-dashed border-gray-200 transition-colors duration-300 flex flex-col justify-between items-start md:items-end text-left md:text-right relative">
+                        <div class="hidden md:block absolute -left-3 top-1/2 -mt-3 w-6 h-6 bg-[#F8FAFC] rounded-full border-r border-gray-200 group-hover:border-indigo-100 transition-colors duration-300"></div>
+
+                        <div class="w-full">
+                            <p class="text-sm font-extrabold text-gray-400 uppercase tracking-widest mb-1">Total Pembayaran</p>
+                            <p class="text-3xl font-black text-indigo-600 mb-6">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</p>
+                        </div>
+
+                        <form action="{{ route('booking.destroy', $booking->id) }}" method="POST" class="w-full mt-auto" onsubmit="return confirm('Yakin ingin membatalkan pesanan ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="w-full flex items-center justify-center py-2.5 px-4 bg-white border border-red-200 text-red-500 font-bold rounded-xl hover:bg-red-50 hover:border-red-300 transition-all duration-300 group/btn">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                Batalkan Pesanan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                @endforeach
+
                 @endif
             </div>
 

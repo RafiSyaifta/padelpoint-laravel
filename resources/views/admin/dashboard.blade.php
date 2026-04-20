@@ -75,11 +75,23 @@
                                 <td class="px-8 py-6">
                                     <span class="text-indigo-600 font-black">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</span>
                                 </td>
+
                                 <td class="px-8 py-6 text-center">
-                                    <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-green-100 text-green-700 border border-green-200">
-                                        Confirmed
-                                    </span>
+                                    @if($booking->status == 'success')
+                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-green-100 text-green-700 border border-green-200">
+                                            Success
+                                        </span>
+                                    @elseif($booking->status == 'pending')
+                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-orange-100 text-orange-700 border border-orange-200">
+                                            Pending
+                                        </span>
+                                    @else
+                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-red-100 text-red-700 border border-red-200">
+                                            Cancelled
+                                        </span>
+                                    @endif
                                 </td>
+
                                 <td class="px-8 py-6 text-right">
                                     <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus booking ini? Data bakal hilang selamanya dari database!');">
                                         @csrf
