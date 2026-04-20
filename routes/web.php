@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat-booking', [BookingController::class, 'index'])->name('booking.index');
     // Rute BARU buat ngehapus (Batalin) Booking
     Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
+    Route::post('/booking/{id}/upload', [BookingController::class, 'uploadProof'])->name('booking.upload');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {

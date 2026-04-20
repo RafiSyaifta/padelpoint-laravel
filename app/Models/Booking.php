@@ -12,7 +12,9 @@ class Booking extends Model
         'booking_date',
         'start_time',
         'end_time',
-        'total_price'
+        'total_price',
+        'status',
+        'payment_proof',
     ];
 
     // Jembatan ke tabel Lapangan
