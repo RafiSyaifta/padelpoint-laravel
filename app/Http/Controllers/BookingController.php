@@ -89,4 +89,30 @@ class BookingController extends Controller
         // 4. Balikin user ke halaman riwayat bawa pesan sukses
         return redirect()->route('booking.index')->with('success', 'Jadwal berhasil dibatalkan. Uang Anda (pura-puranya) sudah dikembalikan!');
     }
+
+    // Di dalam class BookingController
+
+    public function uploadProof(Request $request, $id)
+    {
+        // 1. Validasi input
+        $request->validate([
+            'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // 2. Cari data booking-nya
+        $booking = Booking::findOrFail($id);
+
+        // 3. Proses simpan file
+        if ($request->hasFile('payment_proof')) {
+            // Simpan ke storage/app/public/proofs
+            $path = $request->file('payment_proof')->store('proofs', 'public');
+
+            // 4. Update path di database
+            $booking->update([
+                'payment_proof' => $path
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Bukti transfer berhasil dikirim! Mohon tunggu konfirmasi admin.');
+    }
 }

@@ -107,4 +107,17 @@ class AdminDashboardController extends Controller
 
         return redirect()->back()->with('success', 'Data booking berhasil dihapus permanen!');
     }
+
+    public function confirmPayment($id)
+    {
+        $booking = \App\Models\Booking::findOrFail($id);
+
+        // 1. Ubah status jadi success
+        $booking->update([
+            'status' => 'success'
+        ]);
+
+        // 2. Balik ke dashboard dengan pesan sukses
+        return redirect()->back()->with('success', 'Pembayaran untuk booking #' . $id . ' telah dikonfirmasi!');
+    }
 }
