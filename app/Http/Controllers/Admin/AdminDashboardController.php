@@ -12,8 +12,18 @@ class AdminDashboardController extends Controller
     // 1. Halaman Utama Admin (Rekap Semua Booking)
     public function index()
     {
-        $allBookings = Booking::with(['user', 'court'])->latest()->get();
-        return view('admin.dashboard', compact('allBookings'));
+        // Hitung total duit dari semua booking yang ada
+        $totalRevenue = \App\Models\Booking::sum('total_price');
+
+        // Hitung berapa kali booking hari ini
+        $todayBookings = \App\Models\Booking::whereDate('created_at', today())->count();
+
+        // Hitung total user (pelanggan)
+        $totalUsers = \App\Models\User::where('role', 'user')->count();
+
+        $allBookings = \App\Models\Booking::with(['user', 'court'])->latest()->get();
+
+        return view('admin.dashboard', compact('allBookings', 'totalRevenue', 'todayBookings', 'totalUsers'));
     }
 
     // 2. Daftar Semua Lapangan

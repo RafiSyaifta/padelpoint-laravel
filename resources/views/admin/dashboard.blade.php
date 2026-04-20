@@ -18,6 +18,26 @@
                 </div>
             @endif
 
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-indigo-50 rounded-full opacity-50 group-hover:scale-110 transition-transform"></div>
+        <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-2 relative z-10">Total Pendapatan</p>
+        <h4 class="text-3xl font-black text-indigo-600 relative z-10">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h4>
+    </div>
+
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-green-50 rounded-full opacity-50 group-hover:scale-110 transition-transform"></div>
+        <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-2 relative z-10">Booking Hari Ini</p>
+        <h4 class="text-3xl font-black text-green-600 relative z-10">{{ $todayBookings }} <span class="text-sm font-bold text-gray-400">Jadwal</span></h4>
+    </div>
+
+    <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 relative overflow-hidden group">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-orange-50 rounded-full opacity-50 group-hover:scale-110 transition-transform"></div>
+        <p class="text-xs font-black text-gray-400 uppercase tracking-widest mb-2 relative z-10">Total Pelanggan</p>
+        <h4 class="text-3xl font-black text-orange-600 relative z-10">{{ $totalUsers }} <span class="text-sm font-bold text-gray-400">Orang</span></h4>
+    </div>
+</div>
+
             <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
                 <div class="p-8 border-b border-gray-50 flex justify-between items-center">
                     <h3 class="text-xl font-bold text-gray-900">Rekap Semua Jadwal</h3>
