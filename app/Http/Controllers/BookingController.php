@@ -115,4 +115,23 @@ class BookingController extends Controller
 
         return redirect()->back()->with('success', 'Bukti transfer berhasil dikirim! Mohon tunggu konfirmasi admin.');
     }
+
+    public function getJadwal($court_id)
+    {
+        // Ambil booking yang statusnya success (merah) atau pending (kuning)
+        $bookings = \App\Models\Booking::where('court_id', $court_id)
+            ->whereIn('status', ['success', 'pending'])
+            ->get()
+            ->map(function($booking) {
+                return [
+                    'title' => $booking->status == 'success' ? 'Dibooking (Penuh)' : 'Menunggu Bayar',
+                    'start' => $booking->booking_date . 'T' . $booking->start_time,
+                    'end'   => $booking->booking_date . 'T' . $booking->end_time,
+                    'color' => $booking->status == 'success' ? '#EF4444' : '#F59E0B', // Merah / Kuning
+                    'textColor' => '#ffffff'
+                ];
+            });
+
+        return response()->json($bookings);
+    }
 }

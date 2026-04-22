@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
     Route::post('/booking/{id}/upload', [BookingController::class, 'uploadProof'])->name('booking.upload');
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/api/courts/{court}/jadwal', [App\Http\Controllers\BookingController::class, 'getJadwal'])->name('api.court.jadwal');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
