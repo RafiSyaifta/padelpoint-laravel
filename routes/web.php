@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Court;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
     // Rute BARU buat ngehapus (Batalin) Booking
     Route::delete('/booking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
     Route::post('/booking/{id}/upload', [BookingController::class, 'uploadProof'])->name('booking.upload');
+    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {

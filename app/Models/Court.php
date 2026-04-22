@@ -8,4 +8,8 @@ class Court extends Model
 {
     // Daftarin kolom yang boleh diisi secara massal
     protected $fillable = ['name', 'price_per_hour', 'image'];
+
+    public function reviews() {
+        return $this->hasMany(Review::class);
+        }
 }
