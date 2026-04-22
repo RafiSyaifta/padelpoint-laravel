@@ -29,4 +29,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bookings()
+{
+    // User punya banyak (hasMany) Booking
+    return $this->hasMany(Booking::class);
+}
 }

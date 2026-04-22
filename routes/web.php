@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\LeaderboardController;
 use App\Models\Court;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::patch('/admin/bookings/{id}/confirm', [AdminDashboardController::class, 'confirmPayment'])->name('admin.bookings.confirm');
 });
 
+Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
 require __DIR__.'/auth.php';
