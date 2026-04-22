@@ -16,6 +16,10 @@
                         {{ __('Katalog') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
+                        {{ __('Leaderboard') }}
+                    </x-nav-link>
+
                     @if(Auth::user()->role === 'admin')
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="text-base font-bold text-indigo-600 dark:text-indigo-600 mt-1">
                             {{ __('Panel Admin') }}
@@ -52,7 +56,6 @@
 
                     <x-slot name="content">
                         <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden min-w-[200px] -m-1.5 relative z-50">
-
                             <div class="px-5 py-3 border-b border-gray-50 bg-gray-50/50">
                                 <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">Pengaturan Akun</p>
                             </div>
@@ -96,10 +99,14 @@
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white border-t border-gray-100 shadow-lg">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Katalog') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('leaderboard')" :active="request()->routeIs('leaderboard')">
+                {{ __('Leaderboard') }}
             </x-responsive-nav-link>
 
             @if(Auth::user()->role === 'admin')
