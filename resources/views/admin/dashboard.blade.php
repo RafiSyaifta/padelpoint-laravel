@@ -68,6 +68,13 @@
                                 </td>
                                 <td class="px-8 py-6 text-gray-700 font-bold">
                                     {{ $booking->court->name ?? 'Lapangan Tidak Ditemukan' }}
+                                    <div class="mt-1 flex flex-wrap gap-1">
+                                        @foreach($booking->equipment as $item)
+                                            <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] rounded-md border border-indigo-100 italic">
+                                                {{ $item->name }}: {{ $item->pivot->quantity }}
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td class="px-8 py-6 text-gray-600">
                                     <div class="text-sm font-bold">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</div>

@@ -75,6 +75,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Jadwal Global (Kalender)
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
     Route::get('/api/global-jadwal', [CalendarController::class, 'getGlobalJadwal'])->name('api.global-jadwal');
+
+    // Kelola Perlengkapan (Equipment)
+    Route::resource('equipment', \App\Http\Controllers\Admin\AdminEquipmentController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -15,7 +15,8 @@ class BookingController extends Controller
     public function create($court_id)
     {
         $court = Court::findOrFail($court_id);
-        return view('booking.create', compact('court'));
+        $equipment = \App\Models\Equipment::all();
+        return view('booking.create', compact('court', 'equipment'));
     }
 
     public function index()
@@ -34,6 +35,8 @@ class BookingController extends Controller
             'booking_date' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
+            'equipment' => 'nullable|array',
+            'equipment.*' => 'integer|min:0|max:10',
         ]);
 
         // Check for existing bookings at the same time and date
@@ -61,7 +64,26 @@ class BookingController extends Controller
             $durasiJam = 1;
         }
 
+        // Calculate basic court price
         $total_price = $court->price_per_hour * $durasiJam;
+
+        // Process equipment and calculate prices
+        $equipmentData = [];
+        if ($request->has('equipment')) {
+            foreach ($request->equipment as $id => $quantity) {
+                if ($quantity > 0) {
+                    $item = \App\Models\Equipment::find($id);
+                    if ($item) {
+                        $subtotal = $item->price * $quantity;
+                        $total_price += $subtotal;
+                        $equipmentData[$id] = [
+                            'quantity' => $quantity,
+                            'subtotal' => $subtotal
+                        ];
+                    }
+                }
+            }
+        }
 
         $booking = Booking::create([
             'user_id' => Auth::id(),
@@ -72,6 +94,11 @@ class BookingController extends Controller
             'total_price' => $total_price,
             'status' => 'pending',
         ]);
+
+        // Sync equipment to pivot table
+        if (!empty($equipmentData)) {
+            $booking->equipment()->sync($equipmentData);
+        }
 
         // Midtrans configuration
         Config::$serverKey = env('MIDTRANS_SERVER_KEY');

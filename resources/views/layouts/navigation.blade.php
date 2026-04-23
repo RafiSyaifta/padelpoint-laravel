@@ -30,6 +30,9 @@
                         <x-nav-link :href="route('admin.calendar')" :active="request()->routeIs('admin.calendar')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
                             {{ __('Jadwal Global') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.equipment.index')" :active="request()->routeIs('admin.equipment.*')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
+                            {{ __('Kelola Perlengkapan') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.index')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
                             {{ __('Riwayat Booking') }}
@@ -121,6 +124,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.calendar')" :active="request()->routeIs('admin.calendar')">
                     {{ __('Jadwal Global') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.equipment.index')" :active="request()->routeIs('admin.equipment.*')">
+                    {{ __('Kelola Perlengkapan') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.index')">

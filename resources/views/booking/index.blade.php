@@ -75,6 +75,17 @@
                                         </div>
                                     </div>
 
+                                    @if($booking->equipment->count() > 0)
+                                    <div class="flex flex-wrap gap-2 mb-6">
+                                        @foreach($booking->equipment as $item)
+                                            <div class="flex items-center gap-2 px-3 py-2 bg-indigo-50/50 rounded-xl border border-indigo-100/50">
+                                                <span class="text-indigo-600 font-black text-xs">{{ $item->pivot->quantity }}x</span>
+                                                <span class="text-indigo-700 text-[10px] font-bold uppercase tracking-widest">{{ $item->name }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    @endif
+
                                     @if ($booking->status == 'success')
                                         <button onclick="document.getElementById('review-modal-{{ $booking->id }}').classList.remove('hidden')"
                                             class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-50 text-indigo-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all duration-300 shadow-sm border border-indigo-100">

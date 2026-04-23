@@ -12,7 +12,10 @@ class Booking extends Model
         'booking_date',
         'start_time',
         'end_time',
-        'total_price', // <-- PASTIIN ADA INI
+        'racket_count',
+        'ball_count',
+        'water_count',
+        'total_price',
         'status',
         'payment_proof',
         'snap_token'
@@ -26,5 +29,12 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function equipment()
+    {
+        return $this->belongsToMany(Equipment::class, 'booking_equipment')
+                    ->withPivot('quantity', 'subtotal')
+                    ->withTimestamps();
     }
 }

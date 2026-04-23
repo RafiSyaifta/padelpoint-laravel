@@ -78,6 +78,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="pt-6 border-t border-gray-100">
+                            <h4 class="text-lg font-black text-gray-900 mb-6 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Layanan Tambahan (Opsional)
+                            </h4>
+                            
+                            <div class="grid grid-cols-1 gap-4">
+                                @foreach($equipment as $item)
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-indigo-200 transition-all">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm">
+                                            @if($item->type == 'rental')
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            @else
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-gray-900">{{ $item->name }}</p>
+                                            <p class="text-xs text-gray-400 font-medium tracking-tight">Rp {{ number_format($item->price, 0, ',', '.') }} / item</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <input type="number" name="equipment[{{ $item->id }}]" min="0" max="10" value="0" class="w-20 h-10 rounded-xl border-gray-200 focus:border-indigo-500 bg-white font-bold text-center">
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
 
                         <input type="hidden" name="total_price" value="{{ $court->price_per_hour }}">
 
