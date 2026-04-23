@@ -27,6 +27,8 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('courts'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/api/midtrans-callback', [App\Http\Controllers\BookingController::class, 'midtransCallback']);
+
 Route::middleware('auth')->group(function () {
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

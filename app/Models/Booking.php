@@ -12,18 +12,17 @@ class Booking extends Model
         'booking_date',
         'start_time',
         'end_time',
-        'total_price',
+        'total_price', // <-- PASTIIN ADA INI
         'status',
         'payment_proof',
+        'snap_token'
     ];
 
-    // Jembatan ke tabel Lapangan
     public function court()
     {
         return $this->belongsTo(Court::class);
     }
 
-    // INI YANG ILANG: Jembatan ke tabel User
     public function user()
     {
         return $this->belongsTo(User::class);
