@@ -6,17 +6,22 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Admin\CalendarController;
+use App\Http\Controllers\HomeController;
 use App\Models\Court;
 use Illuminate\Support\Facades\Route;
 
 // ==========================================
 // RUTE PUBLIC (Gak perlu login)
 // ==========================================
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
+
+// Webhook Midtrans harus public biar bisa ditembak server Midtrans
+Route::post('/api/midtrans-callback', [BookingController::class, 'midtransCallback']);
+
+// API Jadwal dipindah ke sini biar kalender di halaman depan bisa ngebaca data tanpa login! 🔥
+Route::get('/api/courts/{court}/jadwal', [BookingController::class, 'getJadwal'])->name('api.court.jadwal');
 
 
 // ==========================================
@@ -27,7 +32,6 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('courts'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/api/midtrans-callback', [App\Http\Controllers\BookingController::class, 'midtransCallback']);
 
 Route::middleware('auth')->group(function () {
     // Profile
@@ -44,9 +48,6 @@ Route::middleware('auth')->group(function () {
 
     // Review
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
-
-    // API Jadwal (Biar rapi gue pake import di atas)
-    Route::get('/api/courts/{court}/jadwal', [BookingController::class, 'getJadwal'])->name('api.court.jadwal');
 });
 
 
