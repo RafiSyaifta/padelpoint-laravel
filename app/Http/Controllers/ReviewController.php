@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -14,13 +16,13 @@ class ReviewController extends Controller
             'court_id' => 'required|exists:courts,id'
         ]);
 
-        \App\Models\Review::create([
-            'user_id' => auth()->id(),
+        Review::create([
+            'user_id' => Auth::id(),
             'court_id' => $request->court_id,
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
 
-        return redirect()->back()->with('success', 'Ulasan lu sudah terkirim, bro!');
+        return redirect()->back()->with('success', 'Terima kasih! Ulasan Anda telah berhasil terkirim.');
     }
 }

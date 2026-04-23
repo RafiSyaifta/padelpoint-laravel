@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="pt-8 pb-12 bg-[#F1F5F9] min-h-screen">
+    <div class="pt-8 pb-12 bg-[#F8FAFC] min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="mb-10">
@@ -9,11 +9,11 @@
                     </div>
                     <h2 class="font-black text-3xl lg:text-4xl text-gray-900 tracking-tight">Admin Control Panel</h2>
                 </div>
-                <p class="text-gray-500 font-medium text-lg">Pantau seluruh aktivitas booking lapangan PadelPoint di sini.</p>
+                <p class="text-gray-500 font-medium text-lg">Pantau seluruh aktivitas pemesanan lapangan PadelPoint secara real-time.</p>
             </div>
 
             @if(session('success'))
-                <div class="mb-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded-r-xl shadow-sm">
+                <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-r-2xl shadow-sm">
                     <span class="font-bold">Berhasil:</span> {{ session('success') }}
                 </div>
             @endif
@@ -39,8 +39,8 @@
 </div>
 
             <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
-                <div class="p-8 border-b border-gray-50 flex justify-between items-center">
-                    <h3 class="text-xl font-bold text-gray-900">Rekap Semua Jadwal</h3>
+                <div class="p-8 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900">Rekap Seluruh Jadwal</h3>
                     <span class="px-4 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-black uppercase tracking-widest">
                         Total: {{ $allBookings->count() }} Data
                     </span>
@@ -58,7 +58,7 @@
                                 <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-50">
+                        <tbody class="divide-y divide-gray-100">
 
                             @foreach($allBookings as $booking)
                             <tr class="hover:bg-gray-50/80 transition-colors group">
@@ -79,17 +79,11 @@
 
                                 <td class="px-8 py-6 text-center">
                                     @if($booking->status == 'success')
-                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-green-100 text-green-700 border border-green-200">
-                                            Success
-                                        </span>
+                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-green-100 text-green-700 border border-green-200">Success</span>
                                     @elseif($booking->status == 'pending')
-                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-orange-100 text-orange-700 border border-orange-200">
-                                            Pending
-                                        </span>
+                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-orange-100 text-orange-700 border border-orange-200">Pending</span>
                                     @else
-                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-red-100 text-red-700 border border-red-200">
-                                            Cancelled
-                                        </span>
+                                        <span class="px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter bg-red-100 text-red-700 border border-red-200">Cancelled</span>
                                     @endif
                                 </td>
 
@@ -110,7 +104,7 @@
                                             </form>
                                         @endif
 
-                                        <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Yakin hapus data ini?');">
+                                        <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
@@ -128,7 +122,7 @@
 
                 @if($allBookings->isEmpty())
                 <div class="p-20 text-center">
-                    <p class="text-gray-400 font-medium">Belum ada data bookingan masuk.</p>
+                    <p class="text-gray-400 font-medium">Belum ada data pemesanan yang tersedia.</p>
                 </div>
                 @endif
             </div>

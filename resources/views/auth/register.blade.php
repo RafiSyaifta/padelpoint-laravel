@@ -1,4 +1,8 @@
 <x-guest-layout>
+    <div class="mb-10 text-center">
+        <h2 class="text-3xl font-black text-gray-900 tracking-tight">Daftar Akun Baru</h2>
+        <p class="text-gray-500 font-medium mt-1 uppercase text-[10px] tracking-widest">Gabung dengan komunitas padelist kami</p>
+    </div>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 

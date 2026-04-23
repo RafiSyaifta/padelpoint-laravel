@@ -4,53 +4,55 @@
 
             <div class="text-center mb-12">
                 <h2 class="font-black text-4xl text-gray-900 tracking-tight">Leaderboard Padelist</h2>
-                <p class="text-gray-500 mt-2 font-medium text-lg">Siapa yang paling rajin menguasai lapangan?</p>
+                <p class="text-gray-500 mt-2 font-medium text-lg">Siapa yang paling aktif menguasai lapangan?</p>
             </div>
 
             <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-50/50 border-b border-gray-100">
-                            <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400">Rank</th>
-                            <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400">Padelist</th>
-                            <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400 text-center">Total Jam</th>
-                            <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400 text-center">Total Booking</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($topUsers as $index => $user)
-                        <tr class="border-b border-gray-50 last:border-0 hover:bg-indigo-50/30 transition-colors">
-                            <td class="px-8 py-6">
-                                @if($index == 0)
-                                    <span class="flex items-center justify-center w-8 h-8 bg-yellow-400 text-white rounded-full text-sm font-black shadow-lg shadow-yellow-200">1</span>
-                                @elseif($index == 1)
-                                    <span class="flex items-center justify-center w-8 h-8 bg-gray-300 text-white rounded-full text-sm font-black shadow-lg shadow-gray-200">2</span>
-                                @elseif($index == 2)
-                                    <span class="flex items-center justify-center w-8 h-8 bg-orange-400 text-white rounded-full text-sm font-black shadow-lg shadow-orange-200">3</span>
-                                @else
-                                    <span class="text-gray-400 font-bold ml-3">{{ $index + 1 }}</span>
-                                @endif
-                            </td>
-                            <td class="px-8 py-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="h-10 w-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 font-black">
-                                        {{ substr($user->name, 0, 1) }}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50/50 border-b border-gray-100">
+                                <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400">Rank</th>
+                                <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400">Padelist</th>
+                                <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400 text-center">Total Jam</th>
+                                <th class="px-8 py-6 font-black text-xs uppercase tracking-widest text-gray-400 text-center">Total Booking</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($topUsers as $index => $user)
+                            <tr class="border-b border-gray-50 last:border-0 hover:bg-indigo-50/30 transition-colors group">
+                                <td class="px-8 py-6">
+                                    @if($index == 0)
+                                        <div class="flex items-center justify-center w-8 h-8 bg-yellow-400 text-white rounded-full text-sm font-black shadow-lg shadow-yellow-200">1</div>
+                                    @elseif($index == 1)
+                                        <div class="flex items-center justify-center w-8 h-8 bg-gray-300 text-white rounded-full text-sm font-black shadow-lg shadow-gray-200">2</div>
+                                    @elseif($index == 2)
+                                        <div class="flex items-center justify-center w-8 h-8 bg-orange-400 text-white rounded-full text-sm font-black shadow-lg shadow-orange-200">3</div>
+                                    @else
+                                        <span class="text-gray-400 font-bold ml-3">{{ $index + 1 }}</span>
+                                    @endif
+                                </td>
+                                <td class="px-8 py-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="h-10 w-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 font-black group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                            {{ substr($user->name, 0, 1) }}
+                                        </div>
+                                        <span class="font-black text-gray-900 group-hover:text-indigo-600 transition-colors">{{ $user->name }}</span>
                                     </div>
-                                    <span class="font-black text-gray-900">{{ $user->name }}</span>
-                                </div>
-                            </td>
-                            <td class="px-8 py-6 text-center">
-                                <span class="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm font-black shadow-md shadow-indigo-100">
-                                    {{ $user->total_hours }} Jam
-                                </span>
-                            </td>
-                            <td class="px-8 py-6 text-center font-bold text-gray-500">
-                                {{ $user->bookings_count }}x
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </td>
+                                <td class="px-8 py-6 text-center">
+                                    <span class="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm font-black shadow-md shadow-indigo-100">
+                                        {{ $user->total_hours }} Jam
+                                    </span>
+                                </td>
+                                <td class="px-8 py-6 text-center font-bold text-gray-500">
+                                    {{ $user->bookings_count }}x
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

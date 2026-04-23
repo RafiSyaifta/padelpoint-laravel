@@ -4,10 +4,10 @@
             <div class="flex items-center">
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
-                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-all duration-300 shadow-md">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A4 4 0 002 9.87v4.263a4 4 0 005.555 3.334l1.125-.75m4.268-3.08l4.416 2.944a1 1 0 001.543-.805V8.212a1 1 0 00-1.543-.804l-4.416 2.944zM15 12h.01"></path></svg>
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200 transform group-hover:rotate-12 transition-all duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
-                        <span class="font-black text-2xl tracking-tight text-gray-900 dark:text-gray-900 group-hover:text-indigo-600 transition-colors">PadelPoint</span>
+                        <span class="font-black text-2xl tracking-tighter text-gray-900 group-hover:text-indigo-600 transition-colors">PadelPoint<span class="text-indigo-600">.</span></span>
                     </a>
                 </div>
 

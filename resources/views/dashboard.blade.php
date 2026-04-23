@@ -6,7 +6,7 @@
 
             <div class="mb-10">
                 <h2 class="font-black text-3xl text-gray-900 tracking-tight">Pilih Lapangan Padel</h2>
-                <p class="text-gray-500 mt-2 font-medium text-lg">Pilih lapangan favoritmu dan jadwalkan permainan sekarang.</p>
+                <p class="text-gray-500 mt-2 font-medium text-lg">Temukan lapangan favorit Anda dan jadwalkan permainan sekarang.</p>
             </div>
 
             @if(session('success'))
@@ -115,7 +115,7 @@
                                             <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                                         </div>
                                         <p class="text-gray-500 font-bold text-lg">Belum ada ulasan</p>
-                                        <p class="text-gray-400 text-sm mt-1">Jadilah yang pertama mencoba lapangan ini!</p>
+                                        <p class="text-gray-400 text-sm mt-1">Jadilah yang pertama untuk mencoba lapangan ini!</p>
                                     </div>
                                 @endforelse
                             </div>

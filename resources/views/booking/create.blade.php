@@ -20,7 +20,7 @@
                             Detail Pesanan
                         </span>
                         <h2 class="text-4xl lg:text-5xl font-black mb-4 leading-tight">{{ $court->name }}</h2>
-                        <p class="text-indigo-200 font-medium mb-12 text-lg">Padel Court Standar Internasional</p>
+                        <p class="text-indigo-200 font-medium mb-12 text-lg">Lapangan Padel Standar Internasional</p>
 
                         <div>
                             <p class="text-sm text-gray-400 font-bold uppercase tracking-wider mb-3">Tarif Sewa</p>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="relative z-10 mt-16 pt-8 border-t border-white/10 flex items-center text-sm text-indigo-200 font-medium">
                         <svg class="w-6 h-6 mr-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Harap datang 15 menit sebelum jadwal.
+                        Mohon hadir 15 menit sebelum waktu pemesanan dimulai.
                     </div>
                 </div>
 

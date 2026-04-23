@@ -5,41 +5,32 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Court;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
-    // 1. Halaman Utama Admin (Rekap Semua Booking)
     public function index()
     {
-        // Hitung total duit dari semua booking yang ada
-        $totalRevenue = \App\Models\Booking::sum('total_price');
-
-        // Hitung berapa kali booking hari ini
-        $todayBookings = \App\Models\Booking::whereDate('created_at', today())->count();
-
-        // Hitung total user (pelanggan)
-        $totalUsers = \App\Models\User::where('role', 'user')->count();
-
-        $allBookings = \App\Models\Booking::with(['user', 'court'])->latest()->get();
+        $totalRevenue = Booking::where('status', 'success')->sum('total_price');
+        $todayBookings = Booking::whereDate('created_at', today())->count();
+        $totalUsers = User::where('role', 'user')->count();
+        $allBookings = Booking::with(['user', 'court'])->latest()->get();
 
         return view('admin.dashboard', compact('allBookings', 'totalRevenue', 'todayBookings', 'totalUsers'));
     }
 
-    // 2. Daftar Semua Lapangan
     public function courts()
     {
         $courts = Court::all();
         return view('admin.courts.index', compact('courts'));
     }
 
-    // 3. Munculin Form Tambah Lapangan
     public function createCourt()
     {
         return view('admin.courts.create');
     }
 
-    // 4. Proses Simpan Lapangan Baru
     public function storeCourt(Request $request)
     {
         $request->validate([
@@ -57,19 +48,15 @@ class AdminDashboardController extends Controller
 
         Court::create($data);
 
-        return redirect()->route('admin.courts.index')->with('success', 'Lapangan baru berhasil ditambah!');
+        return redirect()->route('admin.courts.index')->with('success', 'Lapangan baru berhasil ditambahkan.');
     }
 
-    // --- BAGIAN YANG TADI ERROR (PASTIKAN ADA) ---
-
-    // 5. Munculin Form Edit Lapangan
     public function editCourt($id)
     {
         $court = Court::findOrFail($id);
         return view('admin.courts.edit', compact('court'));
     }
 
-    // 6. Proses Simpan Perubahan (Update)
     public function updateCourt(Request $request, $id)
     {
         $request->validate([
@@ -88,16 +75,15 @@ class AdminDashboardController extends Controller
 
         $court->update($data);
 
-        return redirect()->route('admin.courts.index')->with('success', 'Data lapangan berhasil diperbarui!');
+        return redirect()->route('admin.courts.index')->with('success', 'Data lapangan berhasil diperbarui.');
     }
 
-    // 7. Proses Hapus Lapangan
     public function destroyCourt($id)
     {
         $court = Court::findOrFail($id);
         $court->delete();
 
-        return redirect()->route('admin.courts.index')->with('success', 'Lapangan telah dihapus dari sistem!');
+        return redirect()->route('admin.courts.index')->with('success', 'Lapangan telah dihapus dari sistem.');
     }
 
     public function destroyBooking($id)
@@ -105,19 +91,17 @@ class AdminDashboardController extends Controller
         $booking = Booking::findOrFail($id);
         $booking->delete();
 
-        return redirect()->back()->with('success', 'Data booking berhasil dihapus permanen!');
+        return redirect()->back()->with('success', 'Data booking telah dihapus secara permanen.');
     }
 
     public function confirmPayment($id)
     {
-        $booking = \App\Models\Booking::findOrFail($id);
+        $booking = Booking::findOrFail($id);
 
-        // 1. Ubah status jadi success
         $booking->update([
             'status' => 'success'
         ]);
 
-        // 2. Balik ke dashboard dengan pesan sukses
-        return redirect()->back()->with('success', 'Pembayaran untuk booking #' . $id . ' telah dikonfirmasi!');
+        return redirect()->back()->with('success', 'Pembayaran untuk booking #' . $id . ' telah berhasil dikonfirmasi.');
     }
 }
