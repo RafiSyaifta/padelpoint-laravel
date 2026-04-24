@@ -30,20 +30,30 @@
                             class="text-indigo-600">.</span></span>
                 </div>
 
-                <div class="flex items-center gap-4">
-                    @auth
-                        <a href="{{ route('dashboard') }}"
-                            class="text-sm font-extrabold text-indigo-600 bg-indigo-50 px-5 py-2.5 rounded-xl hover:bg-indigo-100 transition-colors border border-indigo-100">Masuk
-                            Dashboard</a>
-                    @endauth
+                <div class="flex items-center gap-6 md:gap-8">
+                    <div class="hidden md:flex items-center gap-6">
+                        <a href="{{ route('mabar.index') }}" class="text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                            Mabar
+                        </a>
+                        <a href="{{ route('leaderboard') }}" class="text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors">Leaderboard</a>
+                    </div>
 
-                    @guest
-                        <a href="{{ route('login') }}"
-                            class="text-sm font-bold text-gray-500 hover:text-gray-900 px-2 transition-colors">Log in</a>
-                        <a href="{{ route('register') }}"
-                            class="text-sm font-extrabold text-white bg-gray-900 px-6 py-2.5 rounded-xl hover:bg-indigo-600 transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5">Daftar
-                            Sekarang</a>
-                    @endguest
+                    <div class="flex items-center gap-4">
+                        @auth
+                            <a href="{{ route('dashboard') }}"
+                                class="text-sm font-extrabold text-indigo-600 bg-indigo-50 px-5 py-2.5 rounded-xl hover:bg-indigo-100 transition-colors border border-indigo-100">Masuk
+                                Dashboard</a>
+                        @endauth
+    
+                        @guest
+                            <a href="{{ route('login') }}"
+                                class="text-sm font-bold text-gray-500 hover:text-gray-900 px-2 transition-colors">Log in</a>
+                            <a href="{{ route('register') }}"
+                                class="text-sm font-extrabold text-white bg-gray-900 px-6 py-2.5 rounded-xl hover:bg-indigo-600 transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5">Daftar
+                                Sekarang</a>
+                        @endguest
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,85 +71,125 @@
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center z-10">
-            <span
-                class="inline-block py-1.5 px-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-[10px] font-black tracking-widest uppercase mb-6 shadow-sm">
-                🏆 Platform Booking Padel #1
-            </span>
-            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
-                Main Padel <br class="hidden md:block">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Gak Pake
-                    Ribet.</span>
+            <div class="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 mb-8 animate-bounce-subtle shadow-sm">
+                <span class="flex h-2 w-2 rounded-full bg-indigo-600 animate-pulse"></span>
+                <span class="text-[10px] font-black tracking-widest uppercase italic">Mabar Feed is Live! 🚀</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 leading-[0.95]">
+                Ready for <br class="hidden md:block">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">Next Level Padel?</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
-                Pilih lapangan favoritmu, cek ketersediaan jadwal secara real-time, dan langsung bayar. Semua beres
-                dalam hitungan detik.
+            <p class="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto mb-12 leading-relaxed text-balance">
+                Pesan lapangan premium, cari partner mabar, dan pantau ranking-mu di komunitas PadelPoint. Platform all-in-one untuk pengalaman Padel terbaik.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="#lapangan"
-                    class="bg-gray-900 text-white font-extrabold py-4 px-8 rounded-2xl hover:bg-indigo-600 transition-all shadow-lg hover:shadow-indigo-200 flex items-center justify-center group">
-                    Lihat Lapangan
-                    <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
+                    class="bg-gray-900 text-white font-extrabold py-5 px-10 rounded-[2rem] hover:bg-indigo-600 transition-all shadow-2xl shadow-indigo-100 flex items-center justify-center group">
+                    Mulai Main Sekarang
+                    <svg class="w-6 h-6 ml-2 group-hover:translate-x-1 transition-transform" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                     </svg>
+                </a>
+                <a href="{{ route('mabar.index') }}" class="bg-white text-gray-900 font-extrabold py-5 px-10 rounded-[2rem] border border-gray-100 hover:border-indigo-200 transition-all shadow-sm flex items-center justify-center gap-3">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    Cari Mabar
                 </a>
             </div>
         </div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20 mb-16">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div
-                class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-transform hover:-translate-y-1">
-                <div
-                    class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center shrink-0 text-indigo-600">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-all hover:-translate-y-1 group">
+                <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center shrink-0 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-extrabold text-gray-900 text-lg">Real-time Jadwal</h3>
-                    <p class="text-sm text-gray-500 mt-1 font-medium leading-relaxed">Cek jam kosong langsung dari
-                        sistem, gak perlu nunggu balasan admin.</p>
+                    <h3 class="font-extrabold text-gray-900 text-base">Real-time Jadwal</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-medium leading-relaxed text-balance">Cek jam kosong langsung dari sistem secara akurat.</p>
                 </div>
             </div>
-            <div
-                class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-transform hover:-translate-y-1">
-                <div
-                    class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center shrink-0 text-purple-600">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                        </path>
+            
+            <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-all hover:-translate-y-1 group">
+                <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center shrink-0 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-extrabold text-gray-900 text-lg">Pembayaran Aman</h3>
-                    <p class="text-sm text-gray-500 mt-1 font-medium leading-relaxed">Terintegrasi dengan QRIS, GoPay,
-                        dan Virtual Account otomatis.</p>
+                    <h3 class="font-extrabold text-gray-900 text-base">Mabar Feed</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-medium leading-relaxed text-balance">Cari teman main & penuhi slot 4 orang dengan mudah.</p>
                 </div>
             </div>
-            <div
-                class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-transform hover:-translate-y-1">
-                <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center shrink-0 text-green-600">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                        </path>
+
+            <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-all hover:-translate-y-1 group">
+                <div class="w-12 h-12 bg-yellow-50 rounded-2xl flex items-center justify-center shrink-0 text-yellow-600 group-hover:bg-yellow-600 group-hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-extrabold text-gray-900 text-lg">Kualitas Premium</h3>
-                    <p class="text-sm text-gray-500 mt-1 font-medium leading-relaxed">Fasilitas terbaik yang sudah
-                        di-review langsung oleh para Padelist.</p>
+                    <h3 class="font-extrabold text-gray-900 text-base">Leaderboard</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-medium leading-relaxed text-balance">Kumpulkan jam main & jadilah Padelist nomor satu!</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 flex items-start gap-4 transform transition-all hover:-translate-y-1 group">
+                <div class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center shrink-0 text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-gray-900 text-base">Harga Terbaik</h3>
+                    <p class="text-xs text-gray-500 mt-1 font-medium leading-relaxed text-balance">Mulai dari Rp 150rb/jam dengan fasilitas bintang 5.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="lapangan" class="pb-24 flex-1">
+    <div class="py-24 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-indigo-600 font-black text-[10px] uppercase tracking-widest bg-indigo-50 px-4 py-1.5 rounded-full">Cara Kerja</span>
+                <h2 class="text-4xl font-black text-gray-900 mt-4 tracking-tight">Main Padel cuma 3 langkah.</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="relative text-center group">
+                    <div class="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm">
+                        <span class="text-2xl font-black">1</span>
+                    </div>
+                    <h3 class="font-black text-xl mb-3">Pilih Lapangan</h3>
+                    <p class="text-gray-500 font-medium leading-relaxed">Cek foto & ulasan lapangan favoritmu di katalog kami.</p>
+                    <div class="hidden md:block absolute top-10 -right-6 w-12 border-t-2 border-dashed border-gray-100"></div>
+                </div>
+                
+                <div class="relative text-center group">
+                    <div class="w-20 h-20 bg-gray-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-sm">
+                        <span class="text-2xl font-black">2</span>
+                    </div>
+                    <h3 class="font-black text-xl mb-3">Pilih Jadwal</h3>
+                    <p class="text-gray-500 font-medium leading-relaxed">Pilih jam main (30 mnt interval) & perlengkapan tambahan.</p>
+                    <div class="hidden md:block absolute top-10 -right-6 w-12 border-t-2 border-dashed border-gray-100"></div>
+                </div>
+                
+                <div class="relative text-center group">
+                    <div class="w-20 h-20 bg-indigo-600 text-white rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-indigo-100">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="font-black text-xl mb-3">Bayar & Main</h3>
+                    <p class="text-gray-500 font-medium leading-relaxed">Bayar via QRIS/VA & kamu langsung siap untuk bertanding!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="lapangan" class="pt-24 pb-24 flex-1">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-10 text-center sm:text-left">
                 <h2 class="font-black text-3xl text-gray-900 tracking-tight">Pilih Lapangan Padel</h2>
@@ -364,19 +414,20 @@
             var calendarEl = document.getElementById('calendar');
             if (calendarInstance) calendarInstance.destroy();
             calendarInstance = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
+                initialView: window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right: window.innerWidth < 768 ? '' : 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                slotMinTime: '00:00:00',
+                slotMinTime: '06:00:00',
                 slotMaxTime: '24:00:00',
                 allDaySlot: false,
                 nowIndicator: true,
                 events: '/api/courts/' + courtId + '/jadwal',
                 locale: 'id',
-                height: '650px',
+                height: 'auto',
+                slotDuration: '00:30:00',
                 slotEventOverlap: false,
                 buttonText: {
                     today: 'Hari Ini',
@@ -488,6 +539,30 @@
         .fc-scroller-harness {
             padding-bottom: 20px;
         }
+
+        /* Mobile Specific Fixes */
+        @media (max-width: 640px) {
+            .fc-header-toolbar { flex-direction: column; gap: 0.75rem; }
+            .fc-toolbar-chunk { display: flex; justify-content: center; width: 100%; }
+            .fc-toolbar-title { font-size: 1rem !important; font-weight: 900; }
+            .fc .fc-button { padding: 0.4rem 0.6rem !important; font-size: 0.6rem !important; }
+        }
+        
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-bounce-subtle { animation: bounce-subtle 3s infinite ease-in-out; }
+
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
     </style>
 </body>
 

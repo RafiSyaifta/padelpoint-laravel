@@ -28,7 +28,7 @@
                         </span>
                     </x-nav-link>
 
-                    @if(Auth::user()->role === 'admin')
+                    @if(Auth::user()?->role === 'admin')
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="text-base font-bold text-indigo-600 dark:text-indigo-600 mt-1">
                             {{ __('Panel Admin') }}
                         </x-nav-link>
@@ -71,14 +71,15 @@
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-4 py-2 border border-gray-200 text-sm font-bold rounded-full text-gray-700 dark:text-gray-700 bg-white hover:bg-gray-50 hover:text-indigo-600 focus:outline-none transition-all duration-300 shadow-sm">
                             <div class="flex items-center gap-2">
-                                @if(Auth::user()->role === 'admin')
+                                @if(Auth::user()?->role === 'admin')
                                     <span class="bg-indigo-100 text-indigo-700 text-[10px] px-2 py-0.5 rounded-md uppercase font-black tracking-tighter">Admin</span>
                                 @endif
-                                <div>{{ Auth::user()->name }}</div>
+                                <div>{{ Auth::user()?->name }}</div>
                             </div>
 
                             <div class="ml-2">
@@ -121,6 +122,12 @@
                         </div>
                     </x-slot>
                 </x-dropdown>
+                @else
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('login') }}" class="text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors">Log in</a>
+                        <a href="{{ route('register') }}" class="bg-gray-900 text-white px-5 py-2 rounded-xl text-sm font-black hover:bg-indigo-600 transition-all shadow-lg shadow-indigo-100">Daftar</a>
+                    </div>
+                @endauth
             </div>
 
             <div class="-mr-2 flex items-center sm:hidden">
@@ -148,7 +155,7 @@
                 {{ __('Mabar') }}
             </x-responsive-nav-link>
 
-            @if(Auth::user()->role === 'admin')
+            @if(Auth::user()?->role === 'admin')
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                     {{ __('Panel Admin') }}
                 </x-responsive-nav-link>
@@ -171,6 +178,7 @@
             @endif
         </div>
 
+        @auth
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-bold text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -191,5 +199,11 @@
                 </form>
             </div>
         </div>
+        @else
+        <div class="pt-4 pb-6 border-t border-gray-100 px-4 space-y-3">
+            <a href="{{ route('login') }}" class="block w-full text-center py-3 font-bold text-gray-600 bg-gray-50 rounded-xl">Log in</a>
+            <a href="{{ route('register') }}" class="block w-full text-center py-3 font-black text-white bg-indigo-600 rounded-xl shadow-lg shadow-indigo-100">Daftar Sekarang</a>
+        </div>
+        @endauth
     </div>
 </nav>
