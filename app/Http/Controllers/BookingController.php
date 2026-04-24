@@ -33,10 +33,14 @@ class BookingController extends Controller
     {
         $request->validate([
             'booking_date' => 'required|date',
-            'start_time' => 'required',
-            'end_time' => 'required|after:start_time',
+            'start_time' => ['required', 'regex:/^([01][0-9]|2[0-3]):(00|30)$/'],
+            'end_time' => ['required', 'after:start_time', 'regex:/^([01][0-9]|2[0-3]):(00|30)$/'],
             'equipment' => 'nullable|array',
             'equipment.*' => 'integer|min:0|max:10',
+            'is_open_match' => 'nullable|boolean',
+        ], [
+            'start_time.regex' => 'Waktu mulai harus kelipatan 30 menit (contoh: 08:00 atau 08:30).',
+            'end_time.regex' => 'Waktu selesai harus kelipatan 30 menit (contoh: 09:00 atau 09:30).',
         ]);
 
         // Check for existing bookings at the same time and date
@@ -58,13 +62,14 @@ class BookingController extends Controller
 
         $startTime = Carbon::parse($request->start_time);
         $endTime = Carbon::parse($request->end_time);
-        $durasiJam = $startTime->diffInHours($endTime);
+        $durasiMenit = $startTime->diffInMinutes($endTime);
+        $durasiJam = $durasiMenit / 60;
 
-        if ($durasiJam == 0) {
+        if ($durasiJam <= 0) {
             $durasiJam = 1;
         }
 
-        // Calculate basic court price
+        // Calculate basic court price (supports half hours)
         $total_price = $court->price_per_hour * $durasiJam;
 
         // Process equipment and calculate prices
@@ -93,7 +98,11 @@ class BookingController extends Controller
             'end_time' => $request->end_time,
             'total_price' => $total_price,
             'status' => 'pending',
+            'is_open_match' => $request->has('is_open_match'),
         ]);
+
+        // Add creator as the first participant
+        $booking->participants()->attach(Auth::id());
 
         // Sync equipment to pivot table
         if (!empty($equipmentData)) {

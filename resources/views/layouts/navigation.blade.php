@@ -20,19 +20,48 @@
                         {{ __('Leaderboard') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('mabar.index')" :active="request()->routeIs('mabar.index')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1 relative group/mabar">
+                        {{ __('Mabar') }}
+                        <span class="absolute top-0 right-0 -mt-1 -mr-2 flex h-3 w-3" x-show="true">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                        </span>
+                    </x-nav-link>
+
                     @if(Auth::user()->role === 'admin')
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="text-base font-bold text-indigo-600 dark:text-indigo-600 mt-1">
                             {{ __('Panel Admin') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('admin.courts.index')" :active="request()->routeIs('admin.courts.index')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
-                            {{ __('Kelola Lapangan') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.calendar')" :active="request()->routeIs('admin.calendar')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
-                            {{ __('Jadwal Global') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.equipment.index')" :active="request()->routeIs('admin.equipment.*')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
-                            {{ __('Kelola Perlengkapan') }}
-                        </x-nav-link>
+                        
+                        <!-- Manajemen Dropdown -->
+                        <div class="hidden sm:flex sm:items-center sm:ml-2">
+                            <x-dropdown align="left" width="64">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-base font-bold leading-5 text-gray-600 hover:text-indigo-600 hover:border-indigo-300 focus:outline-none focus:text-indigo-700 focus:border-indigo-300 transition duration-150 ease-in-out mt-1 h-full">
+                                        <div>Manajemen</div>
+                                        <div class="ml-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <div class="p-2 space-y-1 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden min-w-[240px]">
+                                        <x-dropdown-link :href="route('admin.courts.index')" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                            {{ __('Kelola Lapangan') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link :href="route('admin.calendar')" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                            {{ __('Jadwal Global') }}
+                                        </x-dropdown-link>
+                                        <x-dropdown-link :href="route('admin.equipment.index')" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all duration-200">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                                            {{ __('Kelola Perlengkapan') }}
+                                        </x-dropdown-link>
+                                    </div>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
                     @else
                         <x-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.index')" class="text-base font-bold text-gray-600 dark:text-gray-600 hover:text-indigo-600 mt-1">
                             {{ __('Riwayat Booking') }}
@@ -115,10 +144,17 @@
                 {{ __('Leaderboard') }}
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('mabar.index')" :active="request()->routeIs('mabar.index')">
+                {{ __('Mabar') }}
+            </x-responsive-nav-link>
+
             @if(Auth::user()->role === 'admin')
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                     {{ __('Panel Admin') }}
                 </x-responsive-nav-link>
+                <div class="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-gray-400 bg-gray-50 border-y border-gray-100">
+                    Manajemen
+                </div>
                 <x-responsive-nav-link :href="route('admin.courts.index')" :active="request()->routeIs('admin.courts.index')">
                     {{ __('Kelola Lapangan') }}
                 </x-responsive-nav-link>

@@ -48,6 +48,11 @@ Route::middleware('auth')->group(function () {
 
     // Review
     Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+
+    // Mabar (Open Match)
+    Route::get('/mabar', [\App\Http\Controllers\MabarController::class, 'index'])->name('mabar.index');
+    Route::post('/mabar/{booking}/join', [\App\Http\Controllers\MabarController::class, 'join'])->name('mabar.join');
+    Route::post('/mabar/{booking}/leave', [\App\Http\Controllers\MabarController::class, 'leave'])->name('mabar.leave');
 });
 
 

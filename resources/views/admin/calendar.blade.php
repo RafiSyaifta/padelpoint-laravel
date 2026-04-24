@@ -33,17 +33,18 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('admin-calendar');
+            const isMobile = window.innerWidth < 768;
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
+                initialView: isMobile ? 'timeGridDay' : 'timeGridWeek',
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: isMobile ? 'prev,next' : 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right: isMobile ? 'timeGridDay,listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                 },
 
                 // --- FIX FULL 24 JAM DI SINI ---
-                slotMinTime: '00:00:00', // Dimulai dari jam 12 malam persis
-                slotMaxTime: '24:00:00', // Berakhir di jam 12 malam berikutnya
+                slotMinTime: '06:00:00', // Dimulai dari jam 6 pagi
+                slotMaxTime: '24:00:00', // Berakhir di jam 12 malam
 
                 allDaySlot: false,
                 nowIndicator: true,
@@ -183,6 +184,14 @@
 
         .fc-scroller-harness {
             padding-bottom: 10px;
+        }
+
+        /* Mobile Specific Fixes */
+        @media (max-width: 640px) {
+            .fc-header-toolbar { flex-direction: column; gap: 0.75rem; }
+            .fc-toolbar-chunk { display: flex; justify-content: center; width: 100%; }
+            .fc-toolbar-title { font-size: 1rem !important; font-weight: 900; }
+            .fc .fc-button { padding: 0.4rem 0.6rem !important; font-size: 0.6rem !important; }
         }
     </style>
 </x-app-layout>

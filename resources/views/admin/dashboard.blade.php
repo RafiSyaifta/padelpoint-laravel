@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="pt-8 pb-12 bg-[#F8FAFC] min-h-screen">
+    <div class="pt-8 pb-12 bg-[#F8FAFC] min-h-screen" x-data="{}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="mb-10">
@@ -12,11 +12,7 @@
                 <p class="text-gray-500 font-medium text-lg">Pantau seluruh aktivitas pemesanan lapangan PadelPoint secara real-time.</p>
             </div>
 
-            @if(session('success'))
-                <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-r-2xl shadow-sm">
-                    <span class="font-bold">Berhasil:</span> {{ session('success') }}
-                </div>
-            @endif
+            <x-alert />
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
     <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 relative overflow-hidden group">
@@ -47,15 +43,15 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse min-w-[800px] md:min-w-full">
                         <thead>
                             <tr class="bg-gray-50/50">
-                                <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Pelanggan</th>
-                                <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Lapangan</th>
-                                <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Tanggal & Waktu</th>
-                                <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest">Total Bayar</th>
-                                <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
-                                <th class="px-8 py-4 text-xs font-black text-gray-400 uppercase tracking-widest text-right">Aksi</th>
+                                <th class="px-4 md:px-8 py-4 text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Pelanggan</th>
+                                <th class="px-4 md:px-8 py-4 text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Lapangan</th>
+                                <th class="px-4 md:px-8 py-4 text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Tanggal & Waktu</th>
+                                <th class="px-4 md:px-8 py-4 text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Total Bayar</th>
+                                <th class="px-4 md:px-8 py-4 text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest text-center">Status</th>
+                                <th class="px-4 md:px-8 py-4 text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -80,7 +76,7 @@
                                     <div class="text-sm font-bold">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</div>
                                     <div class="text-xs font-medium text-gray-400">{{ $booking->start_time }} - {{ $booking->end_time }} WIB</div>
                                 </td>
-                                <td class="px-8 py-6">
+                                <td class="px-4 md:px-8 py-4 md:py-6">
                                     <span class="text-indigo-600 font-black">Rp {{ number_format($booking->total_price, 0, ',', '.') }}</span>
                                 </td>
 
@@ -102,19 +98,29 @@
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                             </a>
 
-                                            <form action="{{ route('admin.bookings.confirm', $booking->id) }}" method="POST">
+                                            <form id="confirm-payment-{{ $booking->id }}" action="{{ route('admin.bookings.confirm', $booking->id) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="p-2 text-green-600 hover:bg-green-50 rounded-xl transition-colors" title="Konfirmasi Pembayaran">
+                                                <button type="button" @click="$dispatch('open-confirm-modal', { 
+                                                    message: 'Konfirmasi pembayaran untuk pesanan ini?', 
+                                                    title: 'Konfirmasi Pembayaran', 
+                                                    confirmText: 'Ya, Konfirmasi', 
+                                                    formId: 'confirm-payment-{{ $booking->id }}' 
+                                                })" class="p-2 text-green-600 hover:bg-green-50 rounded-xl transition-colors" title="Konfirmasi Pembayaran">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                                 </button>
                                             </form>
                                         @endif
 
-                                        <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                        <form id="delete-form-{{ $booking->id }}" action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                            <button type="button" @click="$dispatch('open-confirm-modal', { 
+                                                message: 'Apakah Anda yakin ingin menghapus data ini? Semua data terkait akan ikut terhapus.', 
+                                                title: 'Hapus Pesanan', 
+                                                confirmText: 'Ya, Hapus Data', 
+                                                formId: 'delete-form-{{ $booking->id }}' 
+                                            })" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                             </button>
                                         </form>

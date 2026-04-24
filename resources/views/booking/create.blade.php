@@ -13,10 +13,12 @@
                 },
                 get duration() {
                     if (!this.startTime || !this.endTime) return 0;
-                    let start = new Date('2000-01-01T' + this.startTime);
-                    let end = new Date('2000-01-01T' + this.endTime);
-                    let diff = (end - start) / (1000 * 60 * 60);
-                    return diff > 0 ? Math.ceil(diff) : 0;
+                    let start = this.startTime.split(':');
+                    let end = this.endTime.split(':');
+                    let startMin = parseInt(start[0]) * 60 + parseInt(start[1]);
+                    let endMin = parseInt(end[0]) * 60 + parseInt(end[1]);
+                    let diff = (endMin - startMin) / 60;
+                    return diff > 0 ? diff : 0;
                 },
                 get courtTotal() {
                     return (this.duration || 1) * this.courtPrice;
@@ -30,6 +32,16 @@
                 },
                 get grandTotal() {
                     return this.courtTotal + this.equipmentTotal;
+                },
+                times: [],
+                init() {
+                    for(let h=6; h<=23; h++) {
+                        for(let m=0; m<60; m+=30) {
+                            let hh = h.toString().padStart(2, '0');
+                            let mm = m.toString().padStart(2, '0');
+                            this.times.push(hh + ':' + mm);
+                        }
+                    }
                 }
             }">
 
@@ -45,16 +57,16 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
                 <!-- Main Booking Card -->
-                <div class="lg:col-span-8 bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+                <div class="lg:col-span-8 bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row">
                     <!-- Left: Court Info -->
-                    <div class="md:w-5/12 bg-gradient-to-br from-gray-900 to-indigo-900 text-white p-10 flex flex-col justify-between relative overflow-hidden">
+                    <div class="md:w-5/12 bg-gradient-to-br from-gray-900 to-indigo-900 text-white p-8 md:p-10 flex flex-col justify-between relative overflow-hidden">
                         <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl"></div>
                         <div class="relative z-10">
-                            <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-black tracking-widest uppercase mb-6 text-indigo-100">
+                            <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[9px] md:text-[10px] font-black tracking-widest uppercase mb-4 md:mb-6 text-indigo-100">
                                 Detail Pesanan
                             </span>
-                            <h2 class="text-3xl font-black mb-3 leading-tight">{{ $court->name }}</h2>
-                            <p class="text-indigo-200 font-medium mb-10 text-sm">Lapangan Padel Standar Internasional</p>
+                            <h2 class="text-2xl md:text-3xl font-black mb-2 md:mb-3 leading-tight">{{ $court->name }}</h2>
+                            <p class="text-indigo-200 font-medium mb-6 md:mb-10 text-xs md:text-sm">Lapangan Padel Standar Internasional</p>
 
                             <div>
                                 <p class="text-xs text-gray-400 font-black uppercase tracking-wider mb-2">Tarif Sewa</p>
@@ -73,11 +85,7 @@
                         <form action="{{ route('booking.store', $court->id) }}" method="POST" id="booking-form" class="space-y-8">
                             @csrf
 
-                            @if(session('error'))
-                                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-2xl shadow-sm">
-                                    <span class="font-bold">{{ session('error') }}</span>
-                                </div>
-                            @endif
+                            <x-alert />
 
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Tanggal</label>
@@ -89,14 +97,34 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-6 mt-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Jam Mulai</label>
-                                    <input type="time" name="start_time" x-model="startTime" class="w-full h-14 rounded-xl border-gray-200 focus:border-indigo-500 bg-gray-50 font-bold text-base" required>
+                                    <div class="relative">
+                                        <select name="start_time" x-model="startTime" class="w-full h-14 rounded-xl border-gray-200 focus:border-indigo-500 bg-gray-50 font-bold text-base appearance-none px-4" required>
+                                            <option value="">Pilih Jam</option>
+                                            <template x-for="time in times">
+                                                <option :value="time" x-text="time"></option>
+                                            </template>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">Jam Selesai</label>
-                                    <input type="time" name="end_time" x-model="endTime" class="w-full h-14 rounded-xl border-gray-200 focus:border-indigo-500 bg-gray-50 font-bold text-base" required>
+                                    <div class="relative">
+                                        <select name="end_time" x-model="endTime" class="w-full h-14 rounded-xl border-gray-200 focus:border-indigo-500 bg-gray-50 font-bold text-base appearance-none px-4" required>
+                                            <option value="">Pilih Jam</option>
+                                            <template x-for="time in times">
+                                                <option :value="time" x-text="time" x-show="time > startTime"></option>
+                                            </template>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-gray-400">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -135,6 +163,26 @@
                                             class="w-16 h-9 rounded-lg border-gray-200 focus:border-indigo-500 bg-white font-bold text-center text-sm px-1">
                                     </div>
                                     @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Mabar Toggle -->
+                            <div class="pt-8 border-t border-gray-100">
+                                <div class="flex items-center justify-between p-5 md:p-6 bg-indigo-50 rounded-[1.5rem] md:rounded-[2rem] border border-indigo-100 group hover:border-indigo-300 transition-all cursor-pointer relative overflow-hidden" onclick="document.getElementById('is_open_match').click()">
+                                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-20 h-20 bg-indigo-200 opacity-20 rounded-full blur-2xl"></div>
+                                    <div class="flex items-center gap-3 md:gap-4 relative z-10">
+                                        <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-xl md:rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100">
+                                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-black text-gray-900 text-sm md:text-base tracking-tight">Buka untuk Mabar?</p>
+                                            <p class="text-[10px] md:text-xs text-indigo-600 font-bold opacity-80">Cari teman main & penuhi 4 slot!</p>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" name="is_open_match" id="is_open_match" value="1" class="sr-only peer">
+                                        <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-600"></div>
+                                    </label>
                                 </div>
                             </div>
                         </form>

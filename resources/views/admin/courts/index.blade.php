@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="pt-8 pb-12 bg-[#F8FAFC] min-h-screen">
+    <div class="pt-8 pb-12 bg-[#F8FAFC] min-h-screen" x-data="{}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="mb-10 flex justify-between items-center text-center sm:text-left">
@@ -36,10 +36,15 @@
                                 Edit
                             </a>
 
-                            <form action="{{ route('admin.courts.destroy', $court->id) }}" method="POST" class="flex-1" onsubmit="return confirm('Apakah Anda yakin ingin menghapus lapangan ini? Hal ini dapat memengaruhi riwayat pemesanan yang terkait.');">
+                            <form id="delete-court-{{ $court->id }}" action="{{ route('admin.courts.destroy', $court->id) }}" method="POST" class="flex-1">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="w-full py-2.5 bg-white border border-red-100 hover:bg-red-50 text-red-500 font-bold rounded-xl transition-colors text-sm">
+                                <button type="button" @click="$dispatch('open-confirm-modal', { 
+                                    message: 'Hapus lapangan {{ $court->name }}? Hal ini dapat memengaruhi riwayat pemesanan yang terkait.', 
+                                    title: 'Hapus Lapangan', 
+                                    confirmText: 'Ya, Hapus Lapangan', 
+                                    formId: 'delete-court-{{ $court->id }}' 
+                                })" class="w-full py-2.5 bg-white border border-red-100 hover:bg-red-50 text-red-500 font-bold rounded-xl transition-colors text-sm">
                                     Hapus
                                 </button>
                             </form>

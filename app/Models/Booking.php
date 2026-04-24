@@ -17,9 +17,20 @@ class Booking extends Model
         'water_count',
         'total_price',
         'status',
+        'is_open_match',
         'payment_proof',
         'snap_token'
     ];
+
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'booking_user')->withTimestamps();
+    }
+
+    public function isFull()
+    {
+        return $this->participants()->count() >= 4;
+    }
 
     public function court()
     {

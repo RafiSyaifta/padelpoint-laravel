@@ -9,12 +9,7 @@
                 <p class="text-gray-500 mt-2 font-medium text-lg">Temukan lapangan favorit Anda dan jadwalkan permainan sekarang.</p>
             </div>
 
-            @if(session('success'))
-                <div class="mb-8 p-4 bg-green-50 border-l-4 border-green-500 text-green-800 rounded-r-2xl shadow-sm flex items-center">
-                    <svg class="w-6 h-6 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="font-semibold">{{ session('success') }}</span>
-                </div>
-            @endif
+            <x-alert />
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
@@ -129,19 +124,18 @@
     </div>
 
     <div id="calendarModal" class="hidden fixed inset-0 z-[100] overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen p-4 text-center">
-            <div class="fixed inset-0 bg-gray-900/60 transition-opacity" onclick="tutupKalender()"></div>
-            <div class="relative bg-white rounded-[2.5rem] shadow-2xl w-full max-w-5xl p-6 md:p-10 z-[110] text-left flex flex-col">
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h3 id="calendarTitle" class="text-3xl font-black text-gray-900 tracking-tight">Jadwal Lapangan</h3>
-                        <p class="text-gray-500 font-medium">Cek jam kosong sebelum melakukan booking.</p>
-                    </div>
-                    <button onclick="tutupKalender()" class="p-2 bg-gray-100 hover:bg-red-100 text-gray-500 hover:text-red-600 rounded-full transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <div class="flex items-center justify-center min-h-screen p-4 md:p-6 text-center">
+            <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onclick="tutupKalender()"></div>
+
+            <div class="relative bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-2xl transform transition-all w-full max-w-5xl p-6 md:p-10 z-[110] text-left">
+                <div class="flex justify-between items-center mb-6 md:mb-8">
+                    <h3 class="text-xl md:text-2xl font-black text-gray-900 tracking-tight" id="calendarTitle">Jadwal Lapangan</h3>
+                    <button onclick="tutupKalender()" class="p-2 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors">
+                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
-                <div id="calendar" class="w-full"></div>
+                
+                <div id="calendar" class="min-h-[400px]"></div>
             </div>
         </div>
     </div>
@@ -153,15 +147,20 @@
             document.getElementById('calendarTitle').innerText = 'Jadwal ' + courtName;
             var calendarEl = document.getElementById('calendar');
             if (calendarInstance) calendarInstance.destroy();
+            const isMobile = window.innerWidth < 768;
             calendarInstance = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
-                headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' },
-                slotMinTime: '00:00:00', slotMaxTime: '24:00:00', allDaySlot: false, nowIndicator: true,
-                events: '/api/courts/' + courtId + '/jadwal', locale: 'id', height: '650px', slotEventOverlap: false,
+                initialView: isMobile ? 'timeGridDay' : 'timeGridWeek',
+                headerToolbar: { 
+                    left: isMobile ? 'prev,next' : 'prev,next today', 
+                    center: 'title', 
+                    right: isMobile ? 'timeGridDay,listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' 
+                },
+                slotMinTime: '06:00:00', slotMaxTime: '24:00:00', allDaySlot: false, nowIndicator: true,
+                events: '/api/courts/' + courtId + '/jadwal', locale: 'id', height: isMobile ? '500px' : '650px', slotEventOverlap: false,
                 buttonText: { today: 'Hari Ini', month: 'Bulan', week: 'Minggu', day: 'Hari', list: 'Daftar' }
             });
             calendarInstance.render();
-            setTimeout(() => { calendarInstance.updateSize(); }, 150);
+            setTimeout(() => { calendarInstance.updateSize(); }, 300);
         }
         function tutupKalender() { document.getElementById('calendarModal').classList.add('hidden'); }
     </script>
@@ -181,5 +180,13 @@
         .fc-timegrid-now-indicator-line { border-color: #ef4444; border-width: 2px; }
         .fc-timegrid-now-indicator-arrow { border-color: #ef4444; background-color: #ef4444; }
         .fc-scroller-harness { padding-bottom: 20px; }
+        
+        /* Mobile Specific Fixes */
+        @media (max-width: 640px) {
+            .fc-header-toolbar { flex-direction: column; gap: 0.75rem; }
+            .fc-toolbar-chunk { display: flex; justify-content: center; width: 100%; }
+            .fc-toolbar-title { font-size: 1rem !important; font-weight: 900; }
+            .fc .fc-button { padding: 0.4rem 0.6rem !important; font-size: 0.6rem !important; }
+        }
     </style>
 </x-app-layout>

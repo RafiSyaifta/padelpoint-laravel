@@ -31,8 +31,13 @@ class User extends Authenticatable
     }
 
     public function bookings()
-{
-    // User punya banyak (hasMany) Booking
-    return $this->hasMany(Booking::class);
-}
+    {
+        // User punya banyak (hasMany) Booking
+        return $this->hasMany(Booking::class);
+    }
+
+    public function participatedMatches()
+    {
+        return $this->belongsToMany(Booking::class, 'booking_user')->withTimestamps();
+    }
 }
