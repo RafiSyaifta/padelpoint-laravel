@@ -17,7 +17,54 @@ class AdminDashboardController extends Controller
         $totalUsers = User::where('role', 'user')->count();
         $allBookings = Booking::with(['user', 'court'])->latest()->get();
 
-        return view('admin.dashboard', compact('allBookings', 'totalRevenue', 'todayBookings', 'totalUsers'));
+        // Data untuk Grafik Pendapatan Bulanan (Current Year)
+        $monthlyRevenue = Booking::where('status', 'success')
+            ->whereYear('booking_date', date('Y'))
+            ->selectRaw('MONTH(booking_date) as month, SUM(total_price) as total')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month')
+            ->toArray();
+
+        $revenueData = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $revenueData[] = $monthlyRevenue[$m] ?? 0;
+        }
+
+        // Data untuk Grafik Popularitas Lapangan
+        $courtPopularity = Booking::where('status', 'success')
+            ->join('courts', 'bookings.court_id', '=', 'courts.id')
+            ->selectRaw('courts.name, COUNT(*) as count')
+            ->groupBy('courts.name')
+            ->pluck('count', 'name')
+            ->toArray();
+
+        // Data untuk Grafik Tren Booking (7 Hari Terakhir)
+        $bookingTrends = Booking::selectRaw('DATE(booking_date) as date, COUNT(*) as count')
+            ->where('booking_date', '>=', now()->subDays(6)->toDateString())
+            ->groupBy('date')
+            ->orderBy('date')
+            ->pluck('count', 'date')
+            ->toArray();
+
+        $trendLabels = [];
+        $trendData = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('Y-m-d');
+            $trendLabels[] = now()->subDays($i)->format('d M');
+            $trendData[] = $bookingTrends[$date] ?? 0;
+        }
+
+        return view('admin.dashboard', compact(
+            'allBookings', 
+            'totalRevenue', 
+            'todayBookings', 
+            'totalUsers',
+            'revenueData',
+            'courtPopularity',
+            'trendLabels',
+            'trendData'
+        ));
     }
 
     public function courts()
